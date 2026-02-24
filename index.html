@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jack's Game Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-card-hover: rgba(255, 255, 255, 0.08);
+            --accent: #00ff88;
+            --accent-glow: rgba(0, 255, 136, 0.4);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.5);
+            --border: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 60%, rgba(0, 150, 255, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* Grid pattern */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* Header */
+        header {
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeInDown 0.8s ease;
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--text-primary);
+        }
+        
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            animation: fadeIn 1s ease 0.2s both;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--accent) 0%, #00ffcc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+        
+        /* Games Grid */
+        .games-section {
+            padding: 2rem 4rem 6rem;
+        }
+        
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease 0.4s both;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+        
+        /* Game Card */
+        .game-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 1s ease 0.5s both;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .game-card:nth-child(2) { animation-delay: 0.6s; }
+        .game-card:nth-child(3) { animation-delay: 0.7s; }
+        .game-card:nth-child(4) { animation-delay: 0.8s; }
+        
+        .game-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 60px var(--accent-glow);
+        }
+        
+        .game-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.8) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .game-thumbnail {
+            width: 100%;
+            aspect-ratio: 16/10;
+            object-fit: cover;
+            transition: transform 0.6s;
+        }
+        
+        .game-card:hover .game-thumbnail {
+            transform: scale(1.05);
+        }
+        
+        .game-thumbnail-wrapper {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .game-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            z-index: 2;
+        }
+        
+        .game-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+        
+        .game-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+        
+        .game-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-family: 'Space Mono', monospace;
+            z-index: 2;
+            border: 1px solid var(--border);
+        }
+        
+        /* Play Button Overlay */
+        .play-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 3;
+        }
+        
+        .game-card:hover .play-overlay {
+            opacity: 1;
+        }
+        
+        .play-btn {
+            width: 70px;
+            height: 70px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0.8);
+            transition: transform 0.3s;
+        }
+        
+        .game-card:hover .play-btn {
+            transform: scale(1);
+        }
+        
+        .play-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--bg-dark);
+            margin-left: 4px;
+        }
+        
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-secondary);
+            grid-column: 1 / -1;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        footer span {
+            color: var(--accent);
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            header {
+                padding: 1.5rem 2rem;
+            }
+            
+            .games-section {
+                padding: 2rem;
+            }
+            
+            .hero {
+                padding: 4rem 1.5rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Jack's <span>Studio</span></div>
+        <nav>
+            <a href="#games">Games</a>
+            <a href="https://github.com/pattifamily" target="_blank">GitHub</a>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <h1>Games built by<br><span class="highlight">Jack</span></h1>
+        <p>A collection of games I built — from Minecraft clones to whatever's next. Click any game to play!</p>
+    </section>
+    
+    <section class="games-section" id="games">
+        <div class="section-label">// All Games</div>
+        <div class="games-grid" id="gamesGrid">
+            <!-- Games loaded dynamically -->
+        </div>
+    </section>
+    
+    <footer>
+        Built with <span>♥</span> by Jack · Powered by OpenClaw
+    </footer>
+
+    <script>
+        // Games configuration - auto-updated when new games are added
+        const games = [
+            {
+                id: 'minecraft-clone',
+                title: 'Minecraft Clone',
+                description: 'A fully-featured 3D voxel game with terrain, building, and mining.',
+                thumbnail: 'https://pattifamily.github.io/minecraft-clone/screenshot.png',
+                url: 'https://pattifamily.github.io/minecraft-clone/',
+                badge: '3D'
+            }
+        ];
+        
+        // Fallback if no screenshot exists
+        const fallbackImage = 'data:image/svg+xml,' + encodeURIComponent(`
+            <svg xmlns="http://www.w3.org/2000/svg" width="600" height="375" viewBox="0 0 600 375">
+                <rect fill="#1a1a2e" width="600" height="375"/>
+                <text fill="#4ade80" font-family="sans-serif" font-size="40" x="50%" y="50%" text-anchor="middle" dy=".3em">🎮</text>
+            </svg>
+        `);
+        
+        function loadGames() {
+            const grid = document.getElementById('gamesGrid');
+            
+            if (games.length === 0) {
+                grid.innerHTML = '<div class="empty-state">No games yet — check back soon!</div>';
+                return;
+            }
+            
+            games.forEach((game, index) => {
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.onclick = () => window.open(game.url, '_blank');
+                
+                card.innerHTML = `
+                    <div class="game-thumbnail-wrapper">
+                        <img 
+                            class="game-thumbnail" 
+                            src="${game.thumbnail}" 
+                            alt="${game.title}"
+                            onerror="this.src='${fallbackImage}'"
+                        >
+                        <span class="game-badge">${game.badge}</span>
+                        <div class="play-overlay">
+                            <div class="play-btn">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">${game.title}</div>
+                        <div class="game-desc">${game.description}</div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+        
+        // Load games on page load
+        loadGames();
+    </script>
+</body>
+</html>
