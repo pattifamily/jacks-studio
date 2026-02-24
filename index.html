@@ -360,19 +360,35 @@
                 id: 'minecraft-clone',
                 title: 'Minecraft Clone',
                 description: 'A fully-featured 3D voxel game with terrain, building, and mining.',
-                thumbnail: 'https://pattifamily.github.io/minecraft-clone/screenshot.png',
+                thumbnail: 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="375" viewBox="0 0 600 375"><rect fill="#1a1a2e" width="600" height="375"/><rect fill="#4ade80" x="50" y="200" width="80" height="80"/><rect fill="#92400e" x="50" y="260" width="80" height="80"/><rect fill="#78350f" x="200" y="150" width="30" height="130"/><rect fill="#166534" x="170" y="100" width="90" height="60" rx="5"/><rect fill="#6b7280" x="350" y="220" width="60" height="60"/><rect fill="#87CEEB" x="0" y="0" width="600" height="180"/><text fill="white" font-family="sans-serif" font-size="24" x="300" y="330" text-anchor="middle">⛏️ Minecraft Clone</text></svg>`),
                 url: 'https://pattifamily.github.io/minecraft-clone/',
                 badge: '3D'
+            },
+            {
+                id: 'block-builder',
+                title: 'Block Builder',
+                description: 'A Minecraft-style block building game!',
+                thumbnail: 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="375" viewBox="0 0 600 375"><rect fill="#2d3748" width="600" height="375"/><rect fill="#48bb78" x="80" y="180" width="100" height="100"/><rect fill="#38a169" x="180" y="180" width="100" height="100"/><rect fill="#2f855a" x="280" y="180" width="100" height="100"/><rect fill="#276749" x="130" y="80" width="100" height="100"/><rect fill="#22543d" x="230" y="80" width="100" height="100"/><rect fill="#1c4532" x="330" y="130" width="80" height="50"/><text fill="white" font-family="sans-serif" font-size="28" x="300" y="340" text-anchor="middle">🧱 Block Builder</text></svg>`),
+                url: 'https://pattifamily.github.io/block-builder/',
+                badge: 'Building'
+            },
+            {
+                id: 'jump-box',
+                title: 'Jump Box',
+                description: 'A tap-to-jump box game!',
+                thumbnail: 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="375" viewBox="0 0 600 375"><rect fill="#1a202c" width="600" height="375"/><rect fill="#ed8936" x="250" y="200" width="100" height="100" rx="10"/><rect fill="#dd6b20" x="100" y="280" width="150" height="30" rx="5"/><rect fill="#c05621" x="350" y="280" width="150" height="30" rx="5"/><rect fill="#9c4221" x="200" y="320" width="200" height="20" rx="5"/><circle fill="#f6ad55" cx="300" cy="150" r="30"/><text fill="white" font-family="sans-serif" font-size="28" x="300" y="340" text-anchor="middle">📦 Jump Box</text></svg>`),
+                url: 'https://pattifamily.github.io/jump-box/',
+                badge: 'Arcade'
+            },
+            {
+                id: 'piano-chords',
+                title: 'Piano Chords',
+                description: 'A fun piano where you can play chords!',
+                thumbnail: 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="375" viewBox="0 0 600 375"><rect fill="#1a1a2e" width="600" height="375"/><rect fill="#faf089" x="50" y="150" width="40" height="180" rx="3"/><rect fill="black" x="80" y="150" width="30" height="120" rx="3"/><rect fill="#faf089" x="110" y="150" width="40" height="180" rx="3"/><rect fill="black" x="140" y="150" width="30" height="120" rx="3"/><rect fill="#faf089" x="170" y="150" width="40" height="180" rx="3"/><rect fill="#faf089" x="230" y="150" width="40" height="180" rx="3"/><rect fill="black" x="260" y="150" width="30" height="120" rx="3"/><rect fill="#faf089" x="290" y="150" width="40" height="180" rx="3"/><rect fill="black" x="320" y="150" width="30" height="120" rx="3"/><rect fill="#faf089" x="350" y="150" width="40" height="180" rx="3"/><rect fill="#faf089" x="410" y="150" width="40" height="180" rx="3"/><rect fill="black" x="440" y="150" width="30" height="120" rx="3"/><rect fill="#faf089" x="470" y="150" width="40" height="180" rx="3"/><text fill="white" font-family="sans-serif" font-size="28" x="300" y="100" text-anchor="middle">🎹 Piano Chords</text></svg>`),
+                url: 'https://pattifamily.github.io/piano-chords/',
+                badge: 'Music'
             }
         ];
-        
-        // Fallback if no screenshot exists
-        const fallbackImage = 'data:image/svg+xml,' + encodeURIComponent(`
-            <svg xmlns="http://www.w3.org/2000/svg" width="600" height="375" viewBox="0 0 600 375">
-                <rect fill="#1a1a2e" width="600" height="375"/>
-                <text fill="#4ade80" font-family="sans-serif" font-size="40" x="50%" y="50%" text-anchor="middle" dy=".3em">🎮</text>
-            </svg>
-        `);
         
         function loadGames() {
             const grid = document.getElementById('gamesGrid');
@@ -393,7 +409,6 @@
                             class="game-thumbnail" 
                             src="${game.thumbnail}" 
                             alt="${game.title}"
-                            onerror="this.src='${fallbackImage}'"
                         >
                         <span class="game-badge">${game.badge}</span>
                         <div class="play-overlay">
